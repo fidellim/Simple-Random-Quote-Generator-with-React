@@ -13,49 +13,47 @@ const App = () => {
 	const tweetURL = `https://twitter.com/intent/tweet?text=${quote} - ${author}`;
 
 	useEffect(() => {
+		const fetchData = async () => {
+			const res = await fetch(API);
+			const res_1 = await res.json();
+			// console.log(res.quotes);
+			setQuotes(res_1.quotes);
+			setAuthor(res_1.quotes[index].author);
+			setQuote(res_1.quotes[index].quote);
+		};
+		
 		fetchData();
 	}, [index]);
 
-	const fetchData = () => {
-		return fetch(API)
-			.then((res) => res.json())
-			.then((res) => {
-				// console.log(res.quotes);
-				setQuotes(res.quotes);
-				setAuthor(res.quotes[index].author);
-				setQuote(res.quotes[index].quote);
-			});
-	};
-
-	const displayData = () => {
-		console.log(quotes[index].author);
-		console.log(quotes[index].quote);
-		setAuthor(quotes[index].author);
-		setQuote(quotes[index].quote);
-	};
+	// const displayData = () => {
+	// 	console.log(quotes[index].author);
+	// 	console.log(quotes[index].quote);
+	// 	setAuthor(quotes[index].author);
+	// 	setQuote(quotes[index].quote);
+	// };
 
 	const changeQuoteHandler = () => {
 		let randomNum = Math.floor(Math.random() * quotes.length);
-		console.log(randomNum);
+		// console.log(randomNum);
 		setIndex(randomNum);
 		// displayData();
 	};
 
 	return (
 		<div className="d-flex align-items-center justify-content-center vh-100">
-			<div className="col-6 box p-5 rounded">
+			<div id="quote-box" className="col-6 box p-5 rounded">
 				<div className="mb-4">
-					<h3>
+					<h3 id="text">
 						<i className="fas fa-quote-left"></i>
 						{quote}
 					</h3>
-					<p style={{ textAlign: "right", fontStyle: "italic" }}>- {author}</p>
+					<p id="author" style={{ textAlign: "right", fontStyle: "italic" }}>- {author}</p>
 				</div>
 				<div className="d-flex justify-content-between">
-					<a href={tweetURL} target="_blank" className="btn btn-primary">
+					<a id="tweet-quote" href={tweetURL} target="_blank" rel="noreferrer" className="btn btn-primary">
 						<i className="fab fa-twitter"></i> Twitter
 					</a>
-					<button className="btn btn-primary" onClick={changeQuoteHandler}>
+					<button id="new-quote" className="btn btn-primary" onClick={changeQuoteHandler}>
 						Get Quote
 					</button>
 				</div>
